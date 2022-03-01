@@ -1,6 +1,8 @@
 import React, {useState} from 'react'
-// import ReactDOM from 'react-dom'
+import PropTypes from 'prop-types'
 // import Cleave from 'cleave.js/react'
+
+// import ReactDOM from 'react-dom'
 // 'cleave.js/dist/cleave-react.min.js'
 
 import 'animate.css'
@@ -164,4 +166,26 @@ function App() {
   )
 }
 
+// "creditCard": "378282246310005",
+// "expDate": "04/2022",
+// "cvv": "3450",
+// "amount": 100
+
+App.propTypes = {
+  acceptedCards: PropTypes.array,
+  callback: PropTypes.func,
+  cvv: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  expiry: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  focused: PropTypes.string,
+  issuer: PropTypes.string,
+  locale: PropTypes.shape({
+    valid: PropTypes.string,
+  }),
+  name: PropTypes.string.isRequired,
+  number: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  placeholders: PropTypes.shape({
+    name: PropTypes.string,
+  }),
+  preview: PropTypes.bool,
+}
 export default App
