@@ -1,12 +1,13 @@
 import React, {useState} from 'react'
 import PropTypes from 'prop-types'
 // import Cleave from 'cleave.js/react'
+import 'animate.css'
+import './App.css'
+import {pay} from './services/payment'
+import {toast} from 'react-toastify'
 
 // import ReactDOM from 'react-dom'
 // 'cleave.js/dist/cleave-react.min.js'
-
-import 'animate.css'
-import './App.css'
 
 const imageUrls = [
   'https://logos-world.net/wp-content/uploads/2020/04/Visa-Logo.png',
@@ -18,18 +19,23 @@ const imageUrls = [
 ]
 
 function App() {
-  const [creditCardNum, setCreditCardNum] = useState('#### #### #### ####')
+  const [creditCard, setCreditCard] = useState('')
   const [cardType, setCardType] = useState('')
-  const [cardHolder, setCardHolder] = useState('Your Full Name')
-  const [expireMonth, setExpireMonth] = useState('MM')
-  const [expireYear, setExpireYear] = useState('YYYY')
-  const [cardTypeUrl, setCardTypeUrl] = useState(
-    'https://logos-world.net/wp-content/uploads/2020/04/Visa-Logo.png',
-  )
-  // const [flip, setFlip] = useState(null);
+  // const [cardHolder, setCardHolder] = useState('Your Full Name')
+  // const [expireMonth, setExpireMonth] = useState('MM')
+  // const [expireYear, setExpireYear] = useState('YYYY')
+  const [expDate, setExpDate] = useState('')
+  const [cvv, setCvv] = useState('')
+  const [amount, setAmount] = useState('')
 
+  // const [cardTypeUrl, setCardTypeUrl] = useState(
+  //   'https://logos-world.net/wp-content/uploads/2020/04/Visa-Logo.png',
+  // )
+  // // const [flip, setFlip] = useState(null);
+
+  /*
   const handleNum = (e) => {
-    setCreditCardNum(e.target.rawValue)
+    setCreditCard(e.target.rawValue)
     // console.log(e.target.value);
   }
 
@@ -69,13 +75,65 @@ function App() {
   const handleExpYear = (e) => {
     setExpireYear(e.target.value)
   }
+*/
+  const handleCreditCardNumChange = (e) => {
+    setCreditCard(e.target.value)
+  }
 
-  // cleave.js logic
+  const handleExpDate = (e) => {
+    setExpDate(e.target.value)
+  }
+
+  const handleCvvChange = (e) => {
+    setCvv(e.target.value)
+  }
+  const handleAmountChange = (e) => {
+    setAmount(e.target.value)
+  }
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    console.log(
+      `payment payload : ${JSON.stringify(
+        {creditCard, expDate, cvv, amount},
+        null,
+        4,
+      )}`,
+    )
+    const paymentToAdd = {
+      creditCard,
+      expDate,
+      cvv,
+      amount,
+    }
+
+    try {
+      const res = await pay(paymentToAdd)
+      console.log(`response : ${JSON.stringify(res, null, 4)}`)
+      // console.log(JSON.stringify(paymentToAdd, null, 4))
+
+      toast.success('New payment added successfully')
+    } catch (err) {
+      console.log(`Error : ${JSON.stringify(err, null, 4)}`)
+      toast.error(`${err.response.data.message}`)
+      // toast.error(`${err}`)
+
+      // if (err.status === 400) {
+      //   toast.error(`${err}`)
+      //   // toast.error(`${err.message}`)
+      // }
+
+      // if (err.response.status === 400) {
+      //   toast.error(`${err.response.data.message}`)
+      // }
+    }
+  }
 
   return (
     <div className="container">
-      <form id="form">
-        <div id="card">
+      <pre>{JSON.stringify({creditCard, expDate, cvv, amount}, null, 4)}</pre>
+      <form id="form" onSubmit={handleSubmit}>
+        {/* <div id="card">
           <div className="header">
             <div className="sticker"></div>
             <div>
@@ -97,22 +155,29 @@ function App() {
               </h3>
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div className="input-container mt">
           <h4>Enter card number</h4>
-          {/* //  <Cleave
-          //   delimiter="-"
-          //   options={{
-          //     creditCard: true,
-          //     onCreditCardTypeChanged: handleType,
-          //   }}
-          //   onChange={handleNum}
-          //   placeholder="Please enter your credit card number"
-          // />  */}
+          <input
+            type="text"
+            value={creditCard}
+            onChange={handleCreditCardNumChange}
+            placeholder="#### #### #### ####"
+            required
+          />
+          {/* <Cleave
+            delimiter="-"
+            options={{
+              creditCard: true,
+              onCreditCardTypeChanged: handleType,
+            }}
+            onChange={handleNum}
+            placeholder="Please enter your credit card number"
+          /> */}
         </div>
 
-        <div className="input-container">
+        {/* <div className="input-container">
           <h4>Card Holder</h4>
           <input
             onChange={handleCardHolder}
@@ -120,12 +185,18 @@ function App() {
             placeholder="Please enter your full name"
             required
           />
-        </div>
+        </div> */}
 
         <div className="input-grp">
           <div className="input-container">
             <h4>Expiration Date</h4>
-            <input type="text" placeholder="MM/YYYY" required />
+            <input
+              type="text"
+              value={expDate}
+              onChange={handleExpDate}
+              placeholder="MM/YYYY"
+              required
+            />
           </div>
           {/* <div className="input-container">
             <h4>Expiration Year</h4>
@@ -161,11 +232,23 @@ function App() {
           </div> */}
           <div className="input-container">
             <h4>CVV</h4>
-            <input type="text" placeholder="CVV" required />
+            <input
+              type="text"
+              value={cvv}
+              onChange={handleCvvChange}
+              placeholder="###"
+              required
+            />
           </div>
           <div className="input-container">
             <h4>Amount</h4>
-            <input type="text" placeholder="Amount" required />
+            <input
+              type="text"
+              value={amount}
+              onChange={handleAmountChange}
+              placeholder="Amount"
+              required
+            />
           </div>
         </div>
 
