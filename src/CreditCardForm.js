@@ -4,8 +4,8 @@ import {useToast} from '@chakra-ui/toast'
 import cardValidator from 'card-validator'
 import * as React from 'react'
 import {useForm} from 'react-ux-form'
-import {Input} from '../components/Input'
-import {Page} from '../components/Page'
+import {Input} from './components/Input'
+import {Page} from './components/Page'
 
 export const CreditCardForm = () => {
   const {Field, resetForm, submitForm} = useForm({
@@ -43,7 +43,7 @@ export const CreditCardForm = () => {
 
   const toast = useToast()
 
-  const onSubmit = (event: React.FormEvent) => {
+  const onSubmit = (event) => {
     event.preventDefault()
 
     submitForm(
@@ -106,7 +106,7 @@ export const CreditCardForm = () => {
         <Field name="cvc">
           {({error, onBlur, onChange, ref, valid, validating, value}) => (
             <Input
-              label="CVC"
+              label="CVV"
               error={error}
               onBlur={onBlur}
               onChangeText={onChange}

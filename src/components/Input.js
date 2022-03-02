@@ -1,33 +1,33 @@
-import { FormLabel } from "@chakra-ui/form-control";
-import { useId } from "@chakra-ui/hooks";
-import { CheckIcon, WarningIcon } from "@chakra-ui/icons";
+import {FormLabel} from '@chakra-ui/form-control'
+import {useId} from '@chakra-ui/hooks'
+import {CheckIcon, WarningIcon} from '@chakra-ui/icons'
 import {
   Input as ChakraInput,
   InputGroup,
   InputProps,
-  InputRightElement
-} from "@chakra-ui/input";
-import { Box, Text } from "@chakra-ui/layout";
-import { Spinner } from "@chakra-ui/spinner";
-import * as React from "react";
+  InputRightElement,
+} from '@chakra-ui/input'
+import {Box, Text} from '@chakra-ui/layout'
+import {Spinner} from '@chakra-ui/spinner'
+import * as React from 'react'
 
-type Props = {
-  error?: string;
-  label: string;
-  onBlur: () => void;
-  onChange?: InputProps["onChange"];
-  onChangeText?: (text: string) => void;
-  valid: boolean;
-  validating: boolean;
-  value: string;
-};
+// type Props = {
+//   error?: string;
+//   label: string;
+//   onBlur: () => void;
+//   onChange?: InputProps["onChange"];
+//   onChangeText?: (text: string) => void;
+//   valid: boolean;
+//   validating: boolean;
+//   value: string;
+// };<HTMLInputElement, Props>
 
-export const Input = React.forwardRef<HTMLInputElement, Props>(
+export const Input = React.forwardRef(
   (
-    { error, label, onBlur, onChange, onChangeText, valid, validating, value },
-    forwardedRef
+    {error, label, onBlur, onChange, onChangeText, valid, validating, value},
+    forwardedRef,
   ) => {
-    const id = useId();
+    const id = useId()
 
     return (
       <Box>
@@ -42,8 +42,8 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
             value={value}
             isInvalid={error != null}
             onChange={(e) => {
-              onChange?.(e);
-              onChangeText?.(e.target.value);
+              onChange?.(e)
+              onChangeText?.(e.target.value)
             }}
           />
 
@@ -74,6 +74,6 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
           )}
         </Box>
       </Box>
-    );
-  }
-);
+    )
+  },
+)

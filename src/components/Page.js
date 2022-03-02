@@ -1,13 +1,7 @@
 import {Box, Flex, Heading} from '@chakra-ui/layout'
 import * as React from 'react'
 
-export const Page = ({
-  children,
-  title,
-}: {
-  children: React.ReactNode,
-  title: string,
-}) => (
+export const Page = ({children, title}) => (
   <Flex
     flexDirection="column"
     flexGrow={1}
