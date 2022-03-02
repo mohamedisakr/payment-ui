@@ -10,8 +10,8 @@ import {CreditCardForm} from './CreditCardForm'
 ReactDOM.render(
   <React.StrictMode>
     <ToastContainer />
-    {/* <App /> */}
-    <CreditCardForm />
+    <App />
+    {/* <CreditCardForm /> */}
   </React.StrictMode>,
   document.getElementById('root'),
 )
